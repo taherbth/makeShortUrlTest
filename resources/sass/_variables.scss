@@ -1,0 +1,203 @@
+// Colors
+//
+// Grayscale and brand colors for use across Bootstrap.
+
+
+// Color system
+
+$white:         #fff !default;
+$gray-100:      #EFF1F3 !default;
+$gray-200:      #e9ecef !default;
+$gray-300:      #D3D9DC !default;
+$gray-400:      #B2BCC3 !default;
+$gray-500:      #909FA8 !default;
+$gray-600:      #617686 !default;
+$gray-700:      #495057 !default;
+$gray-800:      #343a40 !default;
+$gray-900:      #212529 !default;
+$black:         #000 !default;
+$primary-text:  #234153 !default;
+$disable:       #acc1cc !default;
+$border-primary: #E8EBED !default;
+$neutral-text:  #909FA8 !default;
+$icon-color:     $gray-400 !default;
+
+// fusv-disable
+$grays: (
+  "100": $gray-100,
+  "200": $gray-200,
+  "300": $gray-300,
+  "400": $gray-400,
+  "500": $gray-500,
+  "600": $gray-600,
+  "700": $gray-700,
+  "800": $gray-800,
+  "900": $gray-900
+) !default;
+
+// fusv-enable
+$blue:    #38B6FF !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #d63384 !default;
+$red:     #FF5258 !default;
+$orange:  #fd7e14 !default;
+$yellow:  #FFAA38 !default;
+$green:   #15B33F !default;
+$teal:    #20c997 !default;
+$cyan:    #32A4E6 !default;
+
+// scss-docs-start colors-map
+$colors: (
+  "blue":           $blue,
+  "indigo":         $indigo,
+  "purple":         $purple,
+  "pink":           $pink,
+  "red":            $red,
+  "orange":         $orange,
+  "yellow":         $yellow,
+  "green":          $green,
+  "teal":           $teal,
+  "cyan":           $cyan,
+  "white":          $white,
+  "gray":           $gray-600,
+  "gray-dark":      $gray-800,
+  "primary-text":   $primary-text,
+  "disable":        $disable,
+  "border-primary":  $border-primary,
+  "neutral-text":   $neutral-text,
+  "icon-color":     $gray-400,
+) !default;
+// scss-docs-end colors-map
+
+$primary:       $blue !default;
+$secondary:     $gray-600 !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light:         $gray-100 !default;
+$dark:          $gray-900 !default;
+
+// scss-docs-start theme-colors-map
+$theme-colors: (
+  "primary":    $primary,
+  "secondary":  $secondary,
+  "success":    $success,
+  "info":       $info,
+  "warning":    $warning,
+  "danger":     $danger,
+  "light":      $light,
+  "dark":       $dark
+) !default;
+// Body
+//
+// Settings for the `<body>` element.
+
+$body-bg:                    $gray-200 !default;
+$body-color:                 $primary-text !default;
+
+
+// Typography
+//
+// Font, line-height, and color for body text, headings, and more.
+
+$font-family-sans-serif:     "SF-ProText-Regular", sans-serif !default;
+$font-family-base:           $font-family-sans-serif !default;
+
+// Pixel value used to responsively scale all typography. Applied to the `<html>` element.
+$font-size-root:             16px !default;
+
+$font-size-base:             1rem !default;
+$font-size-lg:               1.25rem !default;
+$font-size-sm:               .875rem !default;
+$font-size-xs:               .75rem !default;
+
+$h1-font-size:               3rem !default;
+$h2-font-size:               2.5rem !default;
+$h3-font-size:               1.875rem !default;
+$h4-font-size:               1.5rem !default;
+$h5-font-size:               1.25rem !default;
+$h6-font-size:               1rem !default;
+
+// Forms
+$input-focus-color:          $primary-text !default;
+$input-focus-bg:             #F5FBFF !default;
+$input-focus-box-shadow:     0px 1px 3px #38B6FF1A !default;
+
+// Components
+//
+// Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
+$line-height:            1.5 !default;
+
+$line-height-base:       $line-height !default;
+$line-height-lg:         (4/3) !default;
+$line-height-sm:         1.5 !default;
+
+// Container
+$container-max-widths: (
+  xl: 90%,
+  xxl: 90%
+) !default;
+
+// Links
+
+$link-color:            $secondary !default;
+$link-decoration:       none !default;
+
+// this is for custom switch
+
+@mixin switch($res: 'sm') {
+    $index: 1rem;
+    $mainVal: 1rem;
+
+    @if $res == 'md' {
+        $index: 2rem;
+        $mainVal: 1.5rem;
+    } @else if $res == 'lg' {
+        $index: 3rem;
+        $mainVal: 2rem;
+    } @else if $res == 'xl' {
+        $index: 4rem;
+        $mainVal: 2.5rem;
+    }
+
+    .custom-control-label {
+        padding-left: #{$index};
+        padding-bottom: #{$mainVal};
+    }
+
+    .custom-control-label::before {
+        height: $mainVal;
+        width: calc(#{$index} + 0.75rem);
+        border-radius: $mainVal * 2;
+    }
+
+    .custom-control-label::after {
+        width: calc(#{$mainVal} - 4px);
+        height: calc(#{$mainVal} - 4px);
+        border-radius: calc(#{$index} - (#{$mainVal} / 2));
+    }
+
+    .custom-control-input:checked ~ .custom-control-label::after {
+        transform: translateX(calc(#{$mainVal} - 0.25rem));
+    }
+}
+
+// YOU CAN PUT ALL RESOLUTION HERE
+// sm - DEFAULT, md, lg, xl
+.custom-switch.custom-switch-sm {
+    @include switch();
+}
+
+.custom-switch.custom-switch-md {
+    @include switch('md');
+}
+
+.custom-switch.custom-switch-lg {
+    @include switch('lg');
+}
+
+.custom-switch.custom-switch-xl {
+    @include switch('xl');
+}

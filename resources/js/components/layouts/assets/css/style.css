@@ -1,0 +1,229 @@
+body{
+    background: #F5F7FF !important;
+}
+/* navbar for pc/desktop */
+.wam-navbar{
+    background: #FFFFFF;
+    box-shadow: 0px 1px 3px #38B6FF1A;
+    margin-bottom: 20px;
+    width: 100%;
+    position: fixed;
+    z-index: 99999999999999;
+}
+.wam-header-xl, .top-part, .bottom-part{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding: 5px 0px;
+}
+/* this is for first navbar */
+.wam-header-xl .part-1 a{
+    text-decoration: none;
+    color: var(--neutral-text);
+}
+.wam-header-xl .part-1 a:hover {
+    color: var(--secondary);
+}
+.wam-header-xl .part-1 a:hover .svg-icon{
+    fill: var(--secondary);
+}
+/* end first navbar */
+
+/* this is for middle navbar */
+.wam-header-xl .part-2 .nav-item{
+    color: var(--primary-text);
+    text-decoration: none;
+    margin: 0 5px;
+}
+.wam-header-xl .part-2 .nav-item:first-child{
+    margin-left: 0;
+}
+.wam-header-xl .part-2 .nav-item:last-child{
+    margin-right: 0;
+}
+
+.wam-header-xl .part-2 .nav-item.dashboard.router-link-active {
+    background: var(--blue) !important;
+    border-radius: 5px;
+}
+.wam-header-xl .part-2 .nav-item.dashboard:hover{
+    background: #DEF3FF;
+}
+.wam-header-xl .part-2 .nav-item.watch.router-link-active {
+    background: var(--danger) !important;
+    border-radius: 5px;
+}
+.wam-header-xl .part-2 .nav-item.watch:hover{
+    background: #FCE4E6;
+}
+.wam-header-xl .part-2 .nav-item.response.router-link-active {
+    background: var(--warning) !important;
+    border-radius: 5px;
+}
+.wam-header-xl .part-2 .nav-item.response:hover{
+    background: #FCF1E1;
+}
+.wam-header-xl .part-2 .nav-item.uploads.router-link-active {
+    background: var(--success) !important;
+    border-radius: 5px;
+}
+.wam-header-xl .part-2 .nav-item.uploads:hover{
+    background: #D9F3E2;
+}
+.wam-header-xl .part-2 .nav-item.manage.router-link-active {
+    background: #6C81EB !important;
+    border-radius: 5px;
+}
+.wam-header-xl .part-2 .nav-item.manage:hover{
+    background: #ECF1FD;
+}
+
+.wam-header-xl .part-2 .nav-item.router-link-active,
+.wam-header-xl .part-2 .nav-item.router-link-active svg,
+.wam-header-xl .part-2 .nav-item.router-link-active .svg-icon{
+    color: #FFFFFF !important;
+    fill: #FFFFFF !important;
+}
+/* end middle navbar */
+
+/* this is for last navbar */
+.wam-header-xl .part-3 a,
+.wam-header-sm .bottom-part .dropdown a{
+    text-decoration: none;
+    color: var(--neutral-text);
+}
+.wam-header-sm .bottom-part .dropdown a:hover {
+    color: var(--secondary);
+}
+.wam-header-sm .bottom-part .dropdown a:hover .svg-icon{
+    fill: var(--secondary);
+}
+.wam-header-xl .part-3 a img,
+.wam-header-sm .bottom-part .user-logo{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+.wam-header-xl .part-3 .dropdown-menu,
+.wam-header-sm .bottom-part .dropdown-menu{
+    min-width: 450px;
+    padding: 8px 18px;
+    /* border: 1px solid #E2F4FE; */
+}
+.wam-header-xl .part-3 .dropdown-menu .notification-body,
+.wam-header-sm .bottom-part .dropdown-menu .notification-body{
+    margin-top: 5px;
+    max-height: 500px;
+    overflow: auto;
+}
+.wam-header-xl .part-3 .dropdown-menu .notification-body .list-group .list-items,
+.wam-header-sm .bottom-part .dropdown-menu .notification-body .list-group .list-items{
+    display: flex;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #E2F4FE;
+}
+.wam-header-xl .part-3 .dropdown-menu .notification-body .list-group .list-items .img-circle,
+.wam-header-sm .bottom-part .dropdown-menu .notification-body .list-group .list-items .img-circle{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+.wam-header-xl .part-3 .dropdown-menu .notification-body .list-group .list-items .img-radius,
+.wam-header-sm .bottom-part .dropdown-menu .notification-body .list-group .list-items .img-radius{
+    width: 90px;
+    height: 60px;
+    border-radius: 5px;
+}
+.wam-header-xl .part-3 .dropdown-menu .notification-body .list-group .list-items .notification-info,
+.wam-header-sm .bottom-part .dropdown-menu .notification-body .list-group .list-items .notification-info{
+    margin-top: 10px;
+    margin-left: 10px;
+    line-height: 0 !important;
+}
+.wam-header-xl .part-3 .dropdown-menu .notification-body .list-group .list-items .notification-info .notification-content,
+.wam-header-sm .bottom-part .dropdown-menu .notification-body .list-group .list-items .notification-info, .notification-content{
+    line-height: 1.5;
+}
+/* end last navbar */
+
+
+/* navbar for tablet/phone */
+
+/* start common style */
+    .has-search{
+        background: transparent;
+        border: none;
+    }
+    .has-search .form-control {
+        padding-right: 3.375rem;
+    }
+    .has-search .form-control-feedback {
+        position: absolute;
+        z-index: 2;
+        display: block;
+        width: 2.375rem;
+        height: 2.375rem;
+        text-align: center;
+        pointer-events: none;
+        right: 6px;
+        top: 9px;
+    }
+    .has-search .form-control {
+        height: 56px;
+    }
+    .dropdown-menu.show{
+        top: 25px !important;
+    }
+
+    .has_notification{
+        display: inline-block;
+        position: relative;
+    }
+    .notification_badge {
+        width: 6px;
+        height: 6px;
+        background-color: #fa3e3e;
+        border-radius: 50%;
+        color: white;
+        padding: 0px 3px;
+        font-size: 6px;
+        position: absolute; /* Position the badge within the relatively positioned button */
+        top: 0px;
+        right: -5px;
+    }
+    #overlay {
+        position: fixed;
+        display: none;
+        width: 100%;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #A1A5A654;
+        z-index: 2;
+        cursor: pointer;
+    }
+/* end common style */
+
+/* responsive navbar */
+@media(max-width: 1140px){
+    .wam-header-xl{
+        display: none;
+    }
+    .container{
+        max-width: 100%;
+        padding: 0;
+    }
+    .top-part, .bottom-part{
+        padding: 0 20px;
+    }
+}
+@media(min-width: 1140px){
+    .wam-header-sm{
+        display: none;
+    }
+}
+

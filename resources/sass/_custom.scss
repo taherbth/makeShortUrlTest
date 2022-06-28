@@ -1,0 +1,73 @@
+/* ------- customize color and buttons forms -------- */
+.btn-primary-text {
+    background: $primary-text;
+    color: $light
+}
+.btn-primary-text:hover {
+    color: $gray-300
+}
+.btn-outline-primary-text {
+    @include button-outline-variant($primary-text);
+}
+.btn-border-primary {
+    background: $border-primary;
+    color: $secondary
+}
+.btn-outline-border-primary {
+    @include button-outline-variant($border-primary);
+}
+.text-neutral{
+    color: $neutral-text;
+}
+.text-disable{
+    color: $disable;
+}
+.text-default{
+    color: $primary-text !important;
+}
+.form-group label{
+    font-weight: 600;
+    font-size: $font-size-sm;
+    text-transform: uppercase;
+}
+.form-group .form-control, .form-group input, .form-group select, .form-group textarea, .form-control{
+    border: 1px solid #E8EBED !important;
+    box-shadow: 0px 1px 3px #38B6FF1A !important;
+}
+.is-warning{
+    border-color: $warning;
+}
+.text-sm{
+    font-size: $font-size-sm !important;
+}
+.text-xs{
+    font-size: $font-size-xs !important;
+}
+.text-decoration-underline{
+    text-decoration: underline;
+}
+.fa, .far, .svg-inline--fa, .text-icon{
+    color: $icon-color
+}
+.badge.badge-icon{
+    background: $icon-color;
+    color: $white;
+}
+
+/* pagination  */
+.pagination{
+    margin-top: 40px;
+}
+.pagination>li>a,
+.pagination>li>span {
+    color: #234153;
+    border: none !important;
+    border-radius: 3px !important;
+}
+.pagination>li.active>a {
+    background: #234153 !important;
+    color: #fff !important;
+}
+.pagination>li {
+    margin: 0 3px !important;
+}

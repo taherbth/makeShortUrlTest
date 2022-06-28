@@ -1,0 +1,101 @@
+name: CI/CD-to-EC2
+
+on:
+  push:
+    branches:
+      - deployment
+
+jobs:
+  ci:
+    name: Integrate codebase to deployment branch
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the files
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Downgrade npm version
+        uses: reedyuk/npm-version@1.1.1
+        with:
+          version: '6.0.1'
+
+      - name: Downgrade node version
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Get curent datetime
+        id: date
+        run: |
+          echo "::set-output name=date::$(date )"
+
+      - name: Generate production enviornment
+        run: |
+          cp .env-aws .env
+
+      - name: Install dependencies
+        run: |
+          npm ci
+      - name: Generate production build
+        run: |
+          npm run prod
+
+      - name: Restore package info files
+        run: |
+          git checkout -- package.json package-lock.json
+
+      - name: Get previous tag
+        id: previoustag
+        run: |
+          echo "::set-output name=tag::$(git describe --tags --abbrev=0)"
+
+      - name: Get last released tag
+        id: lastreleasedtag
+        run: |
+          echo "::set-output name=tag::$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))"
+
+      - name: Get next minor version
+        id: semvers
+        uses: WyriHaximus/github-action-next-semvers@v1
+        with:
+          version: ${{ steps.previoustag.outputs.tag }}
+
+      - name: Update README.md
+        run: |
+          sed -i 's%<img src="https://img.shields.io/badge/Last deployed at-.*%<img src="https://img.shields.io/badge/Last deployed at-${{ steps.date.outputs.date }}-blue.svg" alt="deploy_date_badge"/>%g' README.md
+          sed -i 's%<img src="https://img.shields.io/badge/Latest-.*%<img src="https://img.shields.io/badge/Latest-${{ steps.previoustag.outputs.tag }}-purple.svg" alt="latest_version_badge"/>%g' README.md
+
+      - name: Push deployment build
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Deployment build at ${{ steps.date.outputs.date }}"
+          tagging_message: "v${{steps.semvers.outputs.patch}}"
+          commit_author: eiko03 <tipusultan50@gmail.com>
+
+      - name: Upload release notes
+        uses: thomaseizinger/create-release@1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "${{ steps.previoustag.outputs.tag }}"
+          body: "**Full Changelog**: https://github.com/iquantilellc/WAM/compare/${{ steps.lastreleasedtag.outputs.tag }}...${{ steps.previoustag.outputs.tag }}"
+          name: "${{ steps.previoustag.outputs.tag }}"
+          draft: false
+          prerelease: false
+
+
+  cd:
+    name: Deploy to EC2 server
+    needs: ci
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          key: ${{ secrets.EC2_SSH_KEY }}
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          script: 'cd /var/www/login && sudo bash ./server_deploy.sh'
