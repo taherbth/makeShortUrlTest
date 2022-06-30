@@ -22,5 +22,5 @@ run,
 
 ### Fresh migration
 ```sh
-php artisan migrate:fresh && php artisan passport:install --force && php artisan serve
+php artisan migrate:refresh && php artisan passport:install --force && php artisan serve
 ``
