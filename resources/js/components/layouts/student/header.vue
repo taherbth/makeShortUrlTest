@@ -5,57 +5,7 @@
             <section class="wam-header-xl">
                 <div class="part-1">
                     <div class="dropdown">
-                        <a href="/dashboard" class="mr-3"><img src="/assets/images/wam-academy-logo.png" /></a>
-                        <a href="#" data-toggle="dropdown" @click="overlayOn()">
-                            <search-icon /> Search Video
-                        </a>
-                        <form class="form-group has-search dropdown-menu dropdown-menu-right" @submit.prevent="SearchAllData" :style="searchFieldStyle">
-                            <input class="form-control form-control-lg" placeholder="Search" @keyup="SearchKeyPress">
-                            <searchSubmitIcon class="field_icon search-submit-xl" />
-                            <ul class="list-group search-list-container mt-1">
-                                <a href="javascript:void(0)" class="list-group-item" v-for="item in searchData" :key="item.id" @click="getSearchQuery(item.id)">{{ item.title }}</a>
-                            </ul>
-                        </form>
-                    </div>
-                </div>
-                <div class="part-2">
-                    <router-link to="/dashboard" class="btn nav-item dashboard"> <material-dashboard /> Dashboard </router-link>
-                    <router-link to="/watch" class="btn nav-item watch"> <font-awesome icon="play-circle" class="text-danger"/> Watch </router-link>
-                    <router-link to="/responses" class="btn nav-item response"> <font-awesome icon="bars" class="text-warning"/> Responses </router-link>
-                </div>
-                <div class="part-3">
-                    <div class="dropdown mr-3">
-                        <a href="#" class="has_notification" data-toggle="dropdown" @click="getNotifications">
-                            <font-awesome icon="bell" />
-                            <span :class="[notificationStatus?'notification_badge':'']"></span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <div class="notification-title">
-                                <p class="d-inline-block">Notifications</p>
-                                <span class="text-secondary">{{ unread_notifications }} new</span>
-                            </div>
-                            <div class="notification-body">
-                                <all-notifications :notifications="notifications" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <a href="#" data-toggle="dropdown"> <span v-html="User.dynamicName"></span> <img :src="User.profile_picture || '/assets/images/user-avatar.png'" /></a>
-                        <div class="dropdown-menu dropdown-menu-right profile-section">
-                            <div class="profile-header">
-                                <img :src="User.profile_picture || '/assets/images/user-avatar.png'" class="rounded-circle" style="width:64px;">
-                                <h6>{{ User.name }}</h6>
-                                <p>Student</p>
-                            </div>
-                            <ul class="list-group profile-links" style="list-style:none">
-                                <li class="list-items"><router-link to="/profile#/profile" class="col-12">Personal Settings</router-link></li>
-                                <li class="list-items"><a href="#" class="col-12" @click="LogOut">Log out</a></li>
-                            </ul>
-                            <div class="profile-footer">
-                                <p>All Rights Reserved</p>
-                                <p>Powered By We Are Marcus</p>
-                            </div>
-                        </div>
+                        <h3> <a href="/" class="mr-3">Url Shortner</a> </h3>                    
                     </div>
                 </div>
             </section>
@@ -66,228 +16,28 @@
                     <a href="/" ><img src="/assets/images/wam-academy-logo.png" /></a>
                     <a href="javascript:void(0)" id="sidebarCollapse"><font-awesome icon="bars" /></a>
                 </div>
-                <hr style="1px solid #F5F7FF; margin: 0">
-                <div class="bottom-part">
-                    <div class="dropdown">
-                        <a href="#" data-toggle="dropdown" @click="overlayOn()">
-                            <search-icon /> Search Video
-                        </a>
-                        <form class="form-group has-search dropdown-menu dropdown-menu-right" @submit.prevent="SearchAllData" :style="searchFieldStyle">
-                            <input class="form-control form-control-lg" placeholder="Search" @keyup="SearchKeyPress">
-                            <searchSubmitIcon class="field_icon search-submit-md" />
-                            <ul class="list-group search-list-container mt-1">
-                                <a href="javascript:void(0)" class="list-group-item" v-for="item in searchData" :key="item.id" @click="getSearchQuery(item.id)">{{ item.title }}</a>
-                            </ul>
-                        </form>
-                    </div>
-
-                    <div class="part-3">
-                        <div class="dropdown mr-3">
-                            <a href="#" class="has_notification" data-toggle="dropdown" @click="getNotifications">
-                                <font-awesome icon="bell" />
-                                <span :class="[notificationStatus?'notification_badge':'']"></span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" :style="notificationDropdownStyle">
-                                <div class="notification-title">
-                                    <p class="d-inline-block">Notifications</p>
-                                    <span class="text-secondary">{{ unread_notifications }} new</span>
-                                </div>
-                                <div class="notification-body">
-                                    <all-notifications :notifications="notifications" />
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#" class="mr-1"> <span v-html="User.dynamicName"></span> <img class="user-logo" :src="User.profile_picture || '/assets/images/user-avatar.png'" /></a>
-
-                    </div>
-                </div>
+               
             </section>
         </div>
-
-        <!-- small screen sidebar  -->
-        <nav id="sidebar">
-            <div class="row">
-                <div class="col-3 side-part"></div>
-                <div class="col-9 sidebar-content-wrapper">
-                    <div class="sidebar-top">
-                        <div id="dismiss"><font-awesome icon="bars" /></div>
-
-                        <div class="sidebar-header">
-                            <ul style="list-style: none;padding: 0">
-                                <li><img class="user-img" :src="User.profile_picture || '/assets/images/user-avatar.png'" /></li>
-                                <li><p class="mb-0 mt-2">{{ User.name }}</p></li>
-                                <li><p class="text-sm text-secondary">Student</p></li>
-                            </ul>
-                        </div>
-
-                        <ul class="list-unstyled components">
-                            <li><router-link to="/dashboard">Dashboard</router-link></li>
-                            <li><router-link to="/watch">Watch</router-link></li>
-                            <li><router-link to="/responses">Responses</router-link></li>
-                            <li><router-link to="/profile#/profile">Profile Settings</router-link></li>
-                            <li><a href="javascript:void(0)" @click="LogOut">Logout</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="sidebar-bottom">
-                        <p class="text-center">All Rights Reserved <br> Powered By We Are Marcus</p>
-                    </div>
-                </div>
-            </div>
-        </nav>
         <div id="overlay" @click="overlayOff()"></div>
     </div>
 </template>
 <script>
-    import searchIcon from '../../wam-partial/icons/search-icon'
-    import searchSubmitIcon from '../../wam-partial/icons/serarch-submit-icon'
-    import materialDashboard from '../../wam-partial/icons/material-dashboard'
-    import allNotifications from '../all-notifications'
+    
     export default {
         data(){
             return {
-                notificationDropdownStyle: {},
-                searchFieldStyle: {},
-                searchData: [],
-                isNotificationOpen: false,
-                notifications: [],
-                unread_notifications: 0
+                
             }
         },
         components: {
-            searchIcon,
-            searchSubmitIcon,
-            materialDashboard,
-            allNotifications
+           
         },
-        methods:{
-            generateSearchFieldStyle: function(){
-                if(window.innerWidth >= 1140){
-                    return {
-                        minWidth: (((window.innerWidth-10)/100)*90) + "px",
-                        padding: 0,
-                        marginLeft: ((((window.innerWidth-10)/100)*10)/2) + "px",
-                    }
-                }else{
-                    return {
-                        minWidth: (window.innerWidth-20) + "px",
-                        padding: 0,
-                        marginLeft: "5px",
-                    }
-                }
-            },
-            generateNotificationDropdownStyle: function(){
-                if(window.innerWidth){
-                    return {
-                        minWidth: (window.innerWidth-10) + "px",
-                    }
-                }else{
-                    return {
-                        minWidth: (window.innerWidth-10) + "px",
-                    }
-                }
-            },
-            getNotifications: function (){
-                if (this.isNotificationOpen) {
-                    this.isNotificationOpen = false
-                } else {
-                    axios.get('/api/student/get_all_notifications').then((res) => {
-                        this.notifications = res.data.notifications
-                        this.unread_notifications = res.data.unread_notifications
-                        this.isNotificationOpen = true
-                        this.notificationStatus = null
-                    }).catch((err) => {
-                        this.ValidtaeForm(err)
-                    })
-                }
-            },
-            SearchAllData: function (el){
-                let query = el.target[0].value
-
-                if(this.$route.query.topic && this.$route.query.topic != null && this.$route.query.topic != ""){
-                    this.$router.push(`/watch?query=${query}&topic=${this.$route.query.topic}`)
-                }else{
-                    this.$router.push(`/watch?query=${query}`)
-                }
-            },
-            SearchKeyPress: function (el){
-                let query = el.target.value
-
-                if(this.$route.query.topic && this.$route.query.topic != null && this.$route.query.topic != ""){
-                    axios.get(`/api/student/get_courses?query=${query}&topic=${this.$route.query.topic}`).then(res => {
-                        this.searchData = res.data.data?res.data.data.slice(0, 8):[]
-                    })
-                }else{
-                    axios.get(`/api/student/get_courses?query=${query}`).then(res => {
-                        this.searchData = res.data.data?res.data.data.slice(0, 8):[]
-                    })
-                }
-            },
-            getSearchQuery: function (id){
-                this.overlayOff()
-                this.$router.push(`/watch/play/${id}`)
-            },
-            overlayOn: function (){
-                document.getElementById("overlay").style.display = "block";
-            },
-            overlayOff: function (){
-                document.getElementById("overlay").style.display = "none";
-                this.searchData = []
-            },
-            LogOut: function (){
-                axios.post('/api/student/logout').then(success => {
-                    this.LocalLogout()
-                }).catch(error => {
-                    this.ValidtaeForm(error)
-                })
-            }
+        methods:{            
 
         },
         mounted() {
-            let self = this
-
-            self.searchFieldStyle = self.generateSearchFieldStyle()
-            self.notificationDropdownStyle = self.generateNotificationDropdownStyle()
-
-            window.addEventListener("resize", function(){
-                self.notificationDropdownStyle = self.generateNotificationDropdownStyle()
-                self.searchFieldStyle = self.generateSearchFieldStyle()
-            });
-
-            $(document).ready(function () {
-                $('#dismiss').on('click', function () {
-                    $('#sidebar').removeClass('active');
-                    $('body').css('overflow-y', 'auto');
-                });
-
-                $('#sidebarCollapse').on('click', function () {
-                    $('#sidebar').addClass('active');
-                    $('.collapse.in').toggleClass('in');
-                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-                });
-            });
-
-            // this is for submit search form by clicking search button
-            $(document).ready(function(){
-                $(".search-submit-xl, .search-submit-md").click((el) => {
-                    let query = el.currentTarget.previousElementSibling.value
-                    if(self.$route.query.topic && self.$route.query.topic != null && self.$route.query.topic != ""){
-                        self.$router.push(`/watch?query=${query}&topic=${self.$route.query.topic}`)
-                    }else{
-                        self.$router.push(`/watch?query=${query}`)
-                    }
-                })
-            })
-
-            // this is for get notification status
-            self.GetNotificationStatus()
-
-            // this is for avoid dropdown close
-            $('.part-3').on('hide.bs.dropdown', function (e) {
-                if (e.clickEvent && e.clickEvent.target.className!="nav-link") {
-                e.preventDefault();
-                }
-            });
+            
         },
     }
 </script>

@@ -2,24 +2,37 @@
     <div>
         <Layout>
             <div class="row">
-                <div class="col-lg-8 mb-4 pt-80 pb-80">
+                <div class="col-lg-12 mb-4 pt-80 pb-80">
                     <div class="advertisement-container">
                         <div class="row">
-                            <div class="col-12 col-md-12 col-lg-5 status-message">
-                                <div>
-                                    <h3>Welcome To Url Shortner</h3>
-                                    <p class="text-neutral">Start learning new things and share your experience with others</p>
-                                    <form @submit.prevent="makeShortUrl">
-                                        <input type="text" name="url"  v-model="url">
-                                        <button type="submit" class="btn btn-primary-text col-7">Make short url</button>
-                                    </form>
+                            <div class="col-12 col-md-12 col-lg-12 status-message">
+                                <h3>Welcome To Url Shortner</h3>
+                            </div>
+                            <div class="col-12 col-md-12 col-lg-12 status-message">
+                                <p class="text-neutral">Start learning new things and share your experience with others</p>
+                            </div>
+                        </div>
+                        <form @submit.prevent="makeShortUrl">
+                            <div class="row">                            
+                                <div class="col-2 col-md-2 col-lg-2 offset-5">
+                                    <input type="text" name="url"  v-model="url" placeholder="Write your url here">
                                 </div>
-                            </div>                                                        
+                                <div class="col-2 col-md-2 col-lg-2 offset-1">
+                                    <button type="submit" class="btn btn-primary-text">Make short url</button>
+                                </div>         
+                            </div>
+                        </form>
+                        <div class="row" v-if="short_url">                
+                            <div class="col-12 col-md-12 col-lg-12 status-message">
+                                <h3>{{ response_message }}</h3><br/>
+                            </div>
+                            <div class="col-12 col-md-12 col-lg-12 status-message">
+                                <h5>{{ base_url }}/{{ short_url }}</h5>
+                            </div>
                         </div>
                     </div>
                 </div>                
-            </div>
-            
+            </div>            
         </Layout>
     </div>
 </template>
@@ -29,7 +42,11 @@
     export default {
         data() {
             return {
-                url: ""
+                url: "",
+                short_url: null,
+                base_url: process.env.MIX_API_URL,
+                response_message: "",
+                error:null
             }
         },
         components: {
@@ -37,82 +54,31 @@
         },
         methods: {
             makeShortUrl: function(){
+                this.short_url = null;
                 axios.post('/api/makeShortlink', {url: this.url}).then(response => {
-                                    
+                    if (response.status === 201) {   
+                        this.short_url = response.data.short_code;
+                        this.response_message = response.data.message;
+                        this.$swal.fire({
+                            icon: 'success',
+                            title: 'Yeh',
+                            text: response.data.message,
+                        })
+                    }
                 }).catch(error => {                   
-                    if (error.response.status === 422) {                        
+                    if (error.response.status === 422) {   
+                        this.error = error;                     
                         this.$swal.fire({
                             icon: 'error',
                             title: 'Oops...',
-                            text: "Please fill in all the required fields",
+                            text: error.response.data.message,
                         })
                     }
                 });
             },
-            getStudentStatistics: function (){
-                axios.get(`/api/student/get_student_statistics`).then(res => {
-                    this.chart_data.labels = res.data['label']
-                    this.chart_data.watched = res.data['watch_histories_count']
-                    this.chart_data.responses = res.data['student_responses_count']
-                    this.chart_load = true
-                }).catch(error => {
-                    this.ValidtaeForm(error)
-                })
-            },
-            getLatestResponses: function (){
-                axios.get(`/api/student/get_student_latest_responses`).then(res => {
-                    this.latest_responses = res.data['latest responses']
-                }).catch(error => {
-                    this.ValidtaeForm(error)
-                })
-            },
-            getLastPublishedVideo: function (){
-                axios.get(`/api/student/get_student_last_watched_video`).then(res => {
-                    this.AdsInfo = res.data
-                }).catch(error => {
-                    this.ValidtaeForm(error)
-                })
-            },
-            nick_name: function(full_name=''){
-                return full_name.split(" ")[0]
-            },
-            advertisement_title_max_limit: function (title=''){
-                return title.substring(0,40)
-            },
-            advertisement_desc_max_limit: function (details=''){
-                return details.substring(0,120)
-            },
-            InitProgress: function (){
-                let self = this
-                $(document).ready(function() {
-                    axios.get(`/api/student/get_student_progress`).then(res => {
-                        self.EngagementWeek = res.data
-                        $("#progress").percircle({
-                            progressBarColor: "#15B33F",
-                            percent: res.data
-                        })
-                    }).catch(error => {
-                        this.ValidtaeForm(error)
-                    })
-                })
-            },
-            SetImageForScreen: function (){
-                if(window.innerWidth <= 700 || (window.innerWidth >=992 && window.innerWidth <=1400) ){
-                    this.is_desktop_image = false
-                }else{
-                    this.is_desktop_image = true
-                }
-            }
         },
         mounted() {
-            var self = this
-            /* this.InitProgress()
-            this.getLatestResponses()
-            this.getStudentStatistics()
-            this.getLastPublishedVideo()
-            window.addEventListener("resize", function(){
-                self.SetImageForScreen()
-            }); */
+            
         }
     }
 </script>

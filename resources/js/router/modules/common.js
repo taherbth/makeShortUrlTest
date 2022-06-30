@@ -1,5 +1,6 @@
 
 import Home from '../../components/dashboard/dashboard';
+import RedirectUrl from '../../components/dashboard/RedirectUrl';
 
 export default [
     {
@@ -7,8 +8,10 @@ export default [
         component: Home,
     },
     {
-        path: '/dashboard',
-        component: Home,
+        path: '/:short_code',
+        component: RedirectUrl,
     },
     
 ]
+
+//tinyurl.com/mr3zf7e9

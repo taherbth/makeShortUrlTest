@@ -9,10 +9,11 @@ class ShortLinkApiController extends Controller
     public function makeShortLink(Request $request){
         $longUrl = $request->url;
         $short_code = "";
-        if(empty($longUrl)) {
+        $codeExists = "";
+        if(empty($longUrl)) {   
             return response()->json([
                 'message' => "Url can't be empty"
-            ]);
+            ], 422);
         }
         if(strlen($longUrl) >= 1500) {
            return response()->json([
@@ -30,15 +31,28 @@ class ShortLinkApiController extends Controller
             ]);
         }
         if(!empty($longUrl)) {
-            $short_code = $this->makeUrlToShortCode( $longUrl );
-        }        
+            $codeExists = $this->makeUrlToShortCode( $longUrl );
+        }
+        if ($codeExists != false ) {
+            return response()->json([
+                'message' => 'Already short code exists for given url',
+                'short_code' => $codeExists
+            ], 201);
+        }
+        if ($codeExists == false) {
+          $short_code = $this->generateShortCode($longUrl);
+            return response()->json([
+                'message' => 'Successfully created short code',
+                'short_code' => $short_code
+            ], 201);
+        }
+          
         //return config('constants.options.kw_blacklist');
-        return response()->json([
-            'message' => 'Successfully created short code',
-            'short_code' => $short_code
-        ], 201);
+       
     }
-    public function getShortLink($short_code){
+    public function getShortLink(Request $request){
+
+        $short_code = $request->short_code;        
         if(substr($short_code, -11) == '/index.html') {
             $short_code = substr($short_code, 0, -11);
         }
@@ -56,9 +70,13 @@ class ShortLinkApiController extends Controller
         }
 
         $url = $this->getShortCodeToUrl($short_code);
-        return response()->json([
-            'message' => "Long Url >> ".$url
-        ]);
+       
+        if($url == "422")
+            return response()->json(['message' => 'No short code was supplied'], 422);
+        if($url == "401")
+            return response()->json(['message' => 'Short code does not appear to exist'], 401);
+        else
+            return response()->json(['redirect_url' => $url], 201);
     }
     /**
    * Retrieve a long URL from a short code.
@@ -74,15 +92,15 @@ class ShortLinkApiController extends Controller
    */
     public function getShortCodeToUrl($short_code, $increment = true) {
         if (empty($short_code)) {
-            return response()->json([
-                'message' => "No short code was supplied"
-            ]);
+            return "422";
+            //return "No short code was supplied";
+           
         }
         $urlRow = $this->getGeneratedUrlFromDb($short_code);
         if ( $urlRow == false) {
-            return response()->json([
-                'message' => "Short code does not appear to exist"
-            ]);
+            return "401";
+            //return "422 No short code was supplied";
+            //return "401 Short code does not appear to exist";
         }
         if ($increment == true) {
           $this->incrementNumberOfHit($urlRow->id);
@@ -206,15 +224,7 @@ class ShortLinkApiController extends Controller
             ]);
         }
         $codeExists = $this->shortCodeExistsInDb($longUrl);
-        if ($codeExists != false ) {
-            return response()->json([
-                'message' => "ShortCode is already in database"
-            ]);
-        }
-        if ($codeExists == false) {
-          $shortCode = $this->generateShortCode($longUrl);
-        }
-        return $shortCode;
+        return $codeExists;
     }
     public function shortCodeExistsInDb($longUrl) {
        $existing_short_url = ShortLink::where('long_url',$longUrl)->first();
